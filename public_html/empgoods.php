@@ -129,15 +129,13 @@ if(isset($_GET["confirm_delete_id"])) {
             <form action="/empgoods.php">
             <button class="btn">Товары</button><br/><br/>
             </form>
-            <form action="">
+            <form action="/emporder.php">
             <button class="btn">Бланки заказов</button><br/><br/>
-            </form>
-            <form action="">
-            <button class="btn">Квитанции</button><br/><br/>
             </form>
             <form action="">
             <button class="btn">Мониторинг работы</button><br/><br/>
             </form>
+        </aside>
         <section>
 
         <?$res=mysqli_query($connection,"SELECT * FROM Categories");?>
@@ -147,10 +145,6 @@ if(isset($_GET["confirm_delete_id"])) {
                 <a href="?category_id=<?=$category["ID"]?>" <?=$active?> class="btn btn-light" ><?=$category["Name"]?></a>
             <?endwhile?>
             <a href="?category_id=-1" class="btn btn-light" >Показать всё</a>
-            <!--button type="button" class="btn btn-light">Драже</button>
-            <button type="button" class="btn btn-light">Карамель</button>
-            <button type="button" class="btn btn-light">Зефир</button>
-            <button type="button" class="btn btn-light">Мармелад</button-->
         </div><br/><br/>
 
         <!-- The Modal -->
@@ -278,7 +272,7 @@ if(isset($_GET["confirm_delete_id"])) {
             </tr>
             <?endwhile?>
         </table>
-        </section>
+    </section>
     </main>
     <footer class="fixed-bottom">
         <!-- подвал -->

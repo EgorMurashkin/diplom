@@ -84,19 +84,9 @@
             </form>
             <button class="btn">Анализ работы</button><br/><br/>
             <button class="btn">Накладные</button><br/><br/>
-            <form action="/chat.php">
-            <button class="btn">Мессенджер</button><br/><br/>
-            </form>
-            <form action="/authorization.php">
-            <button class="btn">Авторизация(временно)</button><br/><br/>
-            </form>
-            <form action="/registration.php">
-            <button class="btn">Регистрация(временно)</button><br/><br/>
-            </form>
         </aside>
         <section>
         <div id="mydiv">
-            <xmp><?print_r($_SESSION);?></xmp>
             <div class="contain">
                 <div id="mydivheader">
                     <h2>Данные пользователя</h2>

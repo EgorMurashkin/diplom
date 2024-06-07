@@ -73,11 +73,8 @@
             <form action="/empgoods.php">
             <button class="btn">Товары</button><br/><br/>
             </form>
-            <form action="">
+            <form action="/emporder.php">
             <button class="btn">Бланки заказов</button><br/><br/>
-            </form>
-            <form action="">
-            <button class="btn">Квитанции</button><br/><br/>
             </form>
             <form action="">
             <button class="btn">Мониторинг работы</button><br/><br/>

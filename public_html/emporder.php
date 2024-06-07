@@ -7,39 +7,33 @@ if(isset($_POST["btn_go"])) {
     //Защита от SQL-инъекций
     $F_name=mysqli_real_escape_string($connection,$_POST["F_name"]);
     $S_name=mysqli_real_escape_string($connection,$_POST["S_name"]);
-    $Num=mysqli_real_escape_string($connection,$_POST["Num"]);
+    $Com=mysqli_real_escape_string($connection,$_POST["Com"]);
     $mail=mysqli_real_escape_string($connection,$_POST["mail"]);
-    $Pass=mysqli_real_escape_string($connection,$_POST["Pass"]);
+    $Num=mysqli_real_escape_string($connection,$_POST["Num"]);
     $inn=mysqli_real_escape_string($connection,$_POST["inn"]);
-    $log=mysqli_real_escape_string($connection,$_POST["log"]);
-    $pass2=md5($_POST["pass2"]);
+    $adress=mysqli_real_escape_string($connection,$_POST["adress"]);
 
 
     if(isset($_POST["f_ID"])) {
         $id=(int)$_POST["f_ID"];
-
-        $upd_pass=(trim($_POST["pass2"])=="")?"":",Password='$pass2'";
-    
-        //die($upd_pass);
-
         mysqli_query($connection,"
-            UPDATE users
+            UPDATE `Clients`
             SET
                 Name='$F_name',
                 Full_name='$S_name',
-                Number='$Num',
+                Company='$Com',
                 Mail='$mail',
-                Passport_data='$Pass',
+                Number='$Num',
                 Inn='$inn',
-                Login='$log' $upd_pass
+                Company_adress='$adress'
             WHERE
                 ID=$id
         "); 
     }        
-    else 
+    else
         mysqli_query($connection,"
-            INSERT INTO users(Role,Name,Full_name,Number,Mail,Passport_data,Inn,Login,Password) 
-            VALUES(2,'$F_name','$S_name','$Num','$mail','$Pass','$inn','$log','$pass2')
+            INSERT INTO `Clients`(Role,Name,Full_name,Company,Mail,Number,Inn,Company_adress) 
+            VALUES(2,'$F_name','$S_name','$Com','$mail','$Num','$inn','$adress')
         ");
 
     //Сброс значений формы после успешной её обработки
@@ -52,25 +46,24 @@ $form_fields=$_POST;
 if(isset($_GET["edit_id"])) {
     $id=(int)$_GET["edit_id"];
 
-    $res=mysqli_query($connection,"SELECT * FROM users WHERE ID=$id");
+    $res=mysqli_query($connection,"SELECT * FROM `Сlients` WHERE ID=$id");
 
-    $emp=mysqli_fetch_array($res,MYSQLI_BOTH);
+    $client=mysqli_fetch_array($res,MYSQLI_BOTH);
 
-    $form_fields["f_ID"]=$emp["ID"];
-    $form_fields["F_name"] = $emp["Name"];
-    $form_fields["S_name"] = $emp["Full_name"];
-    $form_fields["Num"] = $emp["Number"];
-    $form_fields["mail"] = $emp["Mail"];
-    $form_fields["Pass"] = $emp["Passport_data"];
-    $form_fields["inn"] = $emp["Inn"];
-    $form_fields["log"] = $emp["Login"];
-    //$form_fields["pass2"] = $emp["Password"];
+    $form_fields["f_ID"]=$client["ID"];
+    $form_fields["F_name"] = $client["Name"];
+    $form_fields["S_name"] = $client["Full_name"];
+    $form_fields["Com"] = $client["Company"];
+    $form_fields["mail"] = $client["Mail"];
+    $form_fields["Num"] = $client["Number"];
+    $form_fields["inn"] = $client["Inn"];
+    $form_fields["adress"] = $client["Company_adress"];
 }
 
 if(isset($_GET["confirm_delete_id"])) {
     $id=(int)$_GET["confirm_delete_id"];
 
-    $res=mysqli_query($connection,"DELETE FROM users WHERE ID=$id");
+    $res=mysqli_query($connection,"DELETE FROM `Сlients` WHERE ID=$id");
 
      //Сброс значений формы после успешной её обработки
      header("Location: $_SERVER[PHP_SELF]");
@@ -83,7 +76,7 @@ if(isset($_GET["confirm_delete_id"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="icons/skif.png" />
-    <title>Сотрудники</title>
+    <title>Клиенты</title>
     <style>
         body {
             background-image: url('/img/fon.jpg');
@@ -93,11 +86,6 @@ if(isset($_GET["confirm_delete_id"])) {
     <!-- Подключаем ваш CSS файл -->
     <link rel="stylesheet" href="/css/style.css"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <script>
-        function show_password_box(){
-            document.getElementById("pa").style.display="block";
-        }
-    </script>
     
 </head>
 <body>
@@ -109,7 +97,7 @@ if(isset($_GET["confirm_delete_id"])) {
                     <img src="icons/skif.png" width="40px" height="40px">
                 </div>
                 <div class="col-9">
-                    <h4>Сотрудники</h4>
+                    <h4>Клиенты</h4>
                 </div>
                 <div class="col-2">
                     <form action="/profile.php">
@@ -122,23 +110,18 @@ if(isset($_GET["confirm_delete_id"])) {
     <main>
     <aside>
             <!-- боковое меню -->
-            <form action="/main.php">
-            <button class="btn">Главная страница</button><br/><br/>
+            <form action="/empmain.php">
+            <button class="btn">Предстоящие задачи</button><br/><br/>
             </form>
-            <form action="/goods.php">
+            <form action="/empgoods.php">
             <button class="btn">Товары</button><br/><br/>
             </form>
-            <form action="/client.php">
-            <button class="btn">Клиенты</button><br/><br/>
+            <form action="/emporder.php">
+            <button class="btn">Бланки заказов</button><br/><br/>
             </form>
-            <form action="/employees.php">
-            <button class="btn">Сотрудники</button><br/><br/>
+            <form action="">
+            <button class="btn">Мониторинг работы</button><br/><br/>
             </form>
-            <form action="/tasks.php">
-            <button class="btn">Задачи</button><br/><br/>
-            </form>
-            <button class="btn">Анализ работы</button><br/><br/>
-            <button class="btn">Накладные</button><br/><br/>
         </aside>
         <section>
 
@@ -146,7 +129,7 @@ if(isset($_GET["confirm_delete_id"])) {
 
         <!-- Button to Open the Modal -->
         <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#myModal">
-        Добавить
+        Создать бланк заказа
         </button><br/><br/>
 
         <!-- The Modal -->
@@ -172,29 +155,24 @@ if(isset($_GET["confirm_delete_id"])) {
                         <input name="S_name" type="text" class="form-control" id="pwd" placeholder="Фамилия" name="erw" value="<?=$form_fields["S_name"]?>">
                     </div>
                     <div class="mb-3">
-                        <label for="qua" class="form-label">Номер:</label>
-                        <input name="Num" type="text" class="form-control" id="qua" placeholder="Номер" name="cg" value="<?=$form_fields["Num"]?>">
+                        <label for="qua" class="form-label">Компания:</label>
+                        <input name="Com" type="text" class="form-control" id="qua" placeholder="Компания" name="cg" value="<?=$form_fields["Com"]?>">
                     </div>
                     <div class="mb-3">
                         <label for="wei" class="form-label">Почта:</label>
                         <input name="mail" type="text" class="form-control" id="wei" placeholder="Почта" name="eweg" value="<?=$form_fields["mail"]?>">
                     </div>
                     <div class="mb-3">
-                        <label for="pr" class="form-label">Пасспортные данные:</label>
-                        <input name="Pass" type="text" class="form-control" id="pr" placeholder="Пасспортные данные" name="htce" value="<?=$form_fields["Pass"]?>">
+                        <label for="pr" class="form-label">Номер:</label>
+                        <input name="Num" type="text" class="form-control" id="pr" placeholder="Номер" name="htce" value="<?=$form_fields["Num"]?>">
                     </div>
                     <div class="mb-3">
                         <label for="prup" class="form-label">ИНН:</label>
                         <input name="inn" type="text" class="form-control" id="prup" placeholder="ИНН" name="xfe" value="<?=$form_fields["inn"]?>">
                     </div>
                     <div class="mb-3">
-                        <label for="lo" class="form-label">Логин:</label>
-                        <input name="log" type="text" class="form-control" id="lo" placeholder="Логин" name="yu" value="<?=$form_fields["log"]?>">
-                    </div>
-                    <div class="mb-3">
-                        <label for="pa" class="form-label">Пароль:</label>
-                        <a href="javascript:void(0)" onclick="show_password_box()">Изменить</a>
-                        <input style="display:none;" name="pass2" type="text" class="form-control" id="pa" placeholder="Пароль" name="iu" value="<?=$form_fields["pass2"]?>">
+                        <label for="pr" class="form-label">Адрес компании:</label>
+                        <input name="adress" type="text" class="form-control" id="pr" placeholder="Адрес компании" name="htce" value="<?=$form_fields["adress"]?>">
                     </div>
                     <?if(isset($form_fields["f_ID"])):?>
                         <input name="f_ID" type="hidden" value="<?=$form_fields["f_ID"]?>"/>
@@ -239,35 +217,33 @@ if(isset($_GET["confirm_delete_id"])) {
   </div>
 </div>
 
-        <?php  $result = mysqli_query($connection,"SELECT * FROM users"); ?>
+        <?php  $result = mysqli_query($connection,"SELECT * FROM `Clients`"); ?>
 
         <table class="table table-bordered table-hover" style="width: 100%">
             <tr>
                 <th>ID</th>      
                 <th>Имя</th>
                 <th>Фамилия</th>
-                <th>Номер</th>
+                <th>Компания</th>
                 <th>Почта</th>
-                <th>Пасспортные данные</th>
+                <th>Номер</th>
                 <th>ИНН</th>
-                <th>Логин</th>
-                <th>Пароль</th>
+                <th>Адрес компании</th>
                 <th></th>
             </tr>
-            <?while ($user = mysqli_fetch_array($result,MYSQLI_BOTH)):?>
+            <?while ($client = mysqli_fetch_array($result,MYSQLI_BOTH)):?>
             <tr>
-                <td><?=$user["ID"]?></td>
-                <td><?=$user["Name"]?></td>
-                <td><?=$user["Full_name"]?></td>
-                <td><?=$user["Number"]?></td>
-                <td><?=$user["Mail"]?></td>
-                <td><?=$user["Passport_data"]?></td>
-                <td><?=$user["Inn"]?></td>
-                <td><?=$user["Login"]?></td>
-                <td><?=$user["Password"]?></td>
+                <td><?=$client["ID"]?></td>
+                <td><?=$client["Name"]?></td>
+                <td><?=$client["Full_name"]?></td>
+                <td><?=$client["Company"]?></td>
+                <td><?=$client["Mail"]?></td>
+                <td><?=$client["Number"]?></td>
+                <td><?=$client["Inn"]?></td>
+                <td><?=$client["Company_adress"]?></td>
                 <td>
-                    <a href="?edit_id=<?=$user["ID"]?>" class="btn btn-light">Редактировать</a>&nbsp;
-                    <a href="?delete_id=<?=$user["ID"]?>" class="btn btn-lightr">Удалить</a>
+                    <a href="?edit_id=<?=$client["ID"]?>" class="btn btn-light">Редактировать</a>&nbsp;
+                    <a href="?delete_id=<?=$client["ID"]?>" class="btn btn-lightr">Удалить</a>
                 </td>
             </tr>
             <?endwhile?>
