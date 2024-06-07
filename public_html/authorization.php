@@ -33,7 +33,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-[<?=$_user_authorized?>]
 <div class="contain">
   <h2>Авторизация</h2>
 	<form action="" method="POST">

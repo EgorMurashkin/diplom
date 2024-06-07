@@ -27,10 +27,6 @@ if(isset($_POST["btn_reg_user"])) {
 	$password=md5($_POST["pass"]);
 	$login=mysqli_real_escape_string($connection,$_POST["login"]);
 	
-	/*die("
-		INSERT INTO	users(Role,Name,Mail,Password) VALUES(2,'$name','$mail','$password')
-	");*/
-	
 	mysqli_query($connection,"
 		INSERT INTO	users
 			(Role,Name,Full_name,Number,Mail,Passport_data,Inn,Login,Password) 
@@ -65,7 +61,7 @@ if(isset($_POST["btn_reg_user"])) {
   <h2>Регистрация</h2>
 	<div class="mb-3 mt-3">
       <label for="email">Роль:</label>
-      <select class="form-select">
+      <select name="role" class="form-select">
 	  <?while($role=DBFetchRole()):?>
 	  <option value="<?=$role["ID"]?>"><?=$role["Role_name"]?></option>
 	  <?endwhile;?>
@@ -107,8 +103,7 @@ if(isset($_POST["btn_reg_user"])) {
       <label class="form-check-label">
       <p>У меня уже есть <a href="/authorization.php">аккаунт</a></p>
       </label>
-    </div>
-    
+    </div>    
         <button name="btn_reg_user" class="btn btn-outline-secondary">Зарегистрироваться</button><br/>
     </form>
 <!-- </form> -->

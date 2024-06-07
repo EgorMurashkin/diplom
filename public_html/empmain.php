@@ -69,18 +69,35 @@ $form_fields=$_POST;
 $form_fields["stat"]=$_SESSION["Status_id"];
 
 
-if(isset($_GET["edit_id"])) {
-    $id=(int)$_GET["edit_id"];
+if(isset($_GET["accept_id"])) {
+    $id=(int)$_GET["accept_id"];
+    $user_id=$_SESSION["user_info"]["ID"];
 
-    $res=mysqli_query($connection,"SELECT * FROM Task WHERE ID=$id");
+    mysqli_query($connection,"
+        UPDATE Task 
+        SET Status = 2
+        WHERE
+            ID = $id AND
+            UserID = $user_id
+    ");
 
-    $tk=mysqli_fetch_array($res,MYSQLI_BOTH);
+   add_completed_analytics($user_id);
+   
+}
 
-    $form_fields["f_ID"]=$tk["ID"];
-    $form_fields["Com"] = $tk["Company"];
-    $form_fields["log"] = $tk["User_login"];
-    $form_fields["Desc"] = $tk["Description"];
-    $form_fields["stat"] = $tk["Status"];
+if(isset($_GET["decline_id"])) {
+    $id=(int)$_GET["decline_id"];
+    $user_id=$_SESSION["user_info"]["ID"];
+
+    mysqli_query($connection,"
+        UPDATE Task 
+        SET Status = 4
+        WHERE
+            ID = $id AND
+            UserID = $user_id
+    ");
+
+   
 }
 
 if(isset($_GET["confirm_delete_id"])) {
@@ -92,7 +109,19 @@ if(isset($_GET["confirm_delete_id"])) {
      header("Location: $_SERVER[PHP_SELF]");
 }
 
-
+function add_completed_analytics($user_id) {
+    global $connection;
+    $res=mysqli_query($connection,"SELECT * FROM Job_analysis WHERE ID_User = $user_id");
+    if(mysqli_num_rows($res)==0){
+        mysqli_query($connection,"INSERT INTO Job_analysis(ID_User,Completed_orders) VALUES($user_id,1)");
+    }else{
+        mysqli_query($connection,"
+            UPDATE Job_analysis
+            SET Completed_orders = Completed_orders + 1
+            WHERE ID_User = $user_id
+        ");
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -124,6 +153,7 @@ if(isset($_GET["confirm_delete_id"])) {
     
 </head>
 <body>
+    <?/*?><xmp><?print_r($_SESSION);?></xmp><?*/?>
     <header>
         <!-- лого/верхнее меню -->
         <div class="container-fluid">
@@ -271,7 +301,8 @@ if(isset($_GET["confirm_delete_id"])) {
                 WHERE
                     Task.UserID = users.ID AND
                     Task.ClientID = Clients.ID AND
-                    Task.Status = Status.ID
+                    Task.Status = Status.ID AND
+                    Task.UserID = ".$_SESSION["user_info"]["ID"]."
             "); 
 
             
@@ -294,9 +325,9 @@ if(isset($_GET["confirm_delete_id"])) {
                 <td><?=$tk["Description"]?></td>
                 <td><?=$tk["Status"]?></td>
                 <td>
-                    <a href="?edit_id=<?=$tov["ID"]?>" class="btn btn-light">Приступить</a>&nbsp;
-                    <a href="?delete_id=<?=$tov["ID"]?>" class="btn btn-lightr">Отклонить</a>&nbsp;
-                    <a href="?delete_id=<?=$tov["ID"]?>" class="btn btn-lightr">Оформить заказ</a>
+                    <a href="?accept_id=<?=$tk["ID"]?>" class="btn btn-light">Приступить</a>&nbsp;
+                    <a href="?decline_id=<?=$tk["ID"]?>" class="btn btn-lightr">Отклонить</a>&nbsp;
+                    <a href="?delete_id=<?=$tk["ID"]?>" class="btn btn-lightr">Оформить заказ</a>
                 </td>
             </tr>
             <?endwhile?>
