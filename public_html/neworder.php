@@ -3,72 +3,6 @@ require_once("$_SERVER[DOCUMENT_ROOT]/../db/databases.php");
 
 error_reporting(~E_WARNING);
 
-if(isset($_POST["btn_go"])) {
-    //Защита от SQL-инъекций
-    $F_name=mysqli_real_escape_string($connection,$_POST["F_name"]);
-    $S_name=mysqli_real_escape_string($connection,$_POST["S_name"]);
-    $Com=mysqli_real_escape_string($connection,$_POST["Com"]);
-    $mail=mysqli_real_escape_string($connection,$_POST["mail"]);
-    $Num=mysqli_real_escape_string($connection,$_POST["Num"]);
-    $inn=mysqli_real_escape_string($connection,$_POST["inn"]);
-    $adress=mysqli_real_escape_string($connection,$_POST["adress"]);
-
-
-    if(isset($_POST["f_ID"])) {
-        $id=(int)$_POST["f_ID"];
-        mysqli_query($connection,"
-            UPDATE `Clients`
-            SET
-                Name='$F_name',
-                Full_name='$S_name',
-                Company='$Com',
-                Mail='$mail',
-                Number='$Num',
-                Inn='$inn',
-                Company_adress='$adress'
-            WHERE
-                ID=$id
-        "); 
-    }        
-    else
-        mysqli_query($connection,"
-            INSERT INTO `Clients`(Role,Name,Full_name,Company,Mail,Number,Inn,Company_adress) 
-            VALUES(2,'$F_name','$S_name','$Com','$mail','$Num','$inn','$adress')
-        ");
-
-    //Сброс значений формы после успешной её обработки
-    header("Location: $_SERVER[PHP_SELF]");
-
-}
-
-$form_fields=$_POST;
-
-if(isset($_GET["edit_id"])) {
-    $id=(int)$_GET["edit_id"];
-
-    $res=mysqli_query($connection,"SELECT * FROM `Сlients` WHERE ID=$id");
-
-    $client=mysqli_fetch_array($res,MYSQLI_BOTH);
-
-    $form_fields["f_ID"]=$client["ID"];
-    $form_fields["F_name"] = $client["Name"];
-    $form_fields["S_name"] = $client["Full_name"];
-    $form_fields["Com"] = $client["Company"];
-    $form_fields["mail"] = $client["Mail"];
-    $form_fields["Num"] = $client["Number"];
-    $form_fields["inn"] = $client["Inn"];
-    $form_fields["adress"] = $client["Company_adress"];
-}
-
-if(isset($_GET["confirm_delete_id"])) {
-    $id=(int)$_GET["confirm_delete_id"];
-
-    $res=mysqli_query($connection,"DELETE FROM `Сlients` WHERE ID=$id");
-
-     //Сброс значений формы после успешной её обработки
-     header("Location: $_SERVER[PHP_SELF]");
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,7 +23,7 @@ if(isset($_GET["confirm_delete_id"])) {
     
 </head>
 <body>
-    <header class="navbar">
+    <header>
         <!-- лого/верхнее меню -->
         <div class="container-fluid">
             <div class="row">
@@ -124,11 +58,7 @@ if(isset($_GET["confirm_delete_id"])) {
             </form>
         </aside>
         <section>
-        <!-- Button to Open the Modal -->
-        <form action="/neworder.php">
-            <button class="btn">Создать бланк заказа</button>
-            </button><br/><br/>
-        </form>
+
         </section>
     </main>
     <footer class="fixed-bottom">

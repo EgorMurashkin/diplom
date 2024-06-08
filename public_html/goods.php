@@ -102,17 +102,17 @@ if(isset($_GET["confirm_delete_id"])) {
     
 </head>
 <body>
-    <header>
+    <header class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
         <!-- лого/верхнее меню -->
         <div class="container-fluid">
-            <div class="row">
+            <div class="row" style="width: 100%;">
                 <div class="col-1">
                     <img src="icons/skif.png" width="40px" height="40px">
                 </div>
-                <div class="col-9">
+                <div class="col-10">
                     <h4>Товары</h4>
                 </div>
-                <div class="col-2">
+                <div class="col-1">
                     <form action="/profile.php">
                         <button class="btn btn-outline-light text-light">Профиль</button>
                     </form>
@@ -138,7 +138,9 @@ if(isset($_GET["confirm_delete_id"])) {
             <form action="/tasks.php">
             <button class="btn">Задачи</button><br/><br/>
             </form>
+            <form action="/stat.php">
             <button class="btn">Анализ работы</button><br/><br/>
+            </form>
             <button class="btn">Накладные</button><br/><br/>
         </aside>
         <section>
@@ -150,10 +152,6 @@ if(isset($_GET["confirm_delete_id"])) {
                 <a href="?category_id=<?=$category["ID"]?>" <?=$active?> class="btn btn-light" ><?=$category["Name"]?></a>
             <?endwhile?>
             <a href="?category_id=-1" class="btn btn-light" >Показать всё</a>
-            <!--button type="button" class="btn btn-light">Драже</button>
-            <button type="button" class="btn btn-light">Карамель</button>
-            <button type="button" class="btn btn-light">Зефир</button>
-            <button type="button" class="btn btn-light">Мармелад</button-->
         </div><br/><br/>
 
         <!-- Button to Open the Modal -->
@@ -268,11 +266,11 @@ if(isset($_GET["confirm_delete_id"])) {
             <tr>
                 <th>ID</th>      
                 <th>Название</th>
-                <th>Количество коробок</th>
-                <th>Количество упаковок</th>
-                <th>Вес коробки</th>
-                <th>Цена коробки</th>
-                <th>Цена упаковки</th>
+                <th>Количество коробок,шт</th>
+                <th>Кол-во упаковок в коробке,шт</th>
+                <th>Вес коробки,кг</th>
+                <th>Цена коробки,руб</th>
+                <th>Цена упаковки,руб</th>
                 <th></th>
             </tr>
             <?while ($tov = mysqli_fetch_array($result,MYSQLI_BOTH)):?>

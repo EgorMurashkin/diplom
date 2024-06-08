@@ -1,8 +1,10 @@
 <?php
 require_once("$_SERVER[DOCUMENT_ROOT]/../db/databases.php");
 require_once("$_SERVER[DOCUMENT_ROOT]/../auth/auth.inc.php");
+$user=$_SESSION["user_info"];
 
-if(!user_is_admin()) die("Вам сюда нельзя");
+session_start();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +35,7 @@ if(!user_is_admin()) die("Вам сюда нельзя");
     
 </head>
 <body>
+    <?/*?><xmp><?print_r($_SESSION);?></xmp><?*/?>
     <header>
         <!-- лого/верхнее меню -->
         <div class="container-fluid">
@@ -44,7 +47,7 @@ if(!user_is_admin()) die("Вам сюда нельзя");
                     <h4>Главная страница</h4>
                 </div>
                 <div class="col-2">
-                    <form action="/profile.php">
+                    <form action="/empprofile.php">
                         <button class="btn btn-outline-light text-light">Профиль</button>
                     </form>
                 </div>
@@ -54,45 +57,48 @@ if(!user_is_admin()) die("Вам сюда нельзя");
     <main>
     <aside>
             <!-- боковое меню -->
-            <form action="/main.php">
-            <button class="btn">Главная страница</button><br/><br/>
+            <form action="/empmain.php">
+            <button class="btn">Предстоящие задачи</button><br/><br/>
             </form>
-            <form action="/goods.php">
+            <form action="/empgoods.php">
             <button class="btn">Товары</button><br/><br/>
             </form>
-            <form action="/client.php">
-            <button class="btn">Клиенты</button><br/><br/>
+            <form action="/emporder.php">
+            <button class="btn">Бланки заказов</button><br/><br/>
             </form>
-            <form action="/employees.php">
-            <button class="btn">Сотрудники</button><br/><br/>
+            <form action="/empstat.php">
+            <button class="btn">Мониторинг работы</button><br/><br/>
             </form>
-            <form action="/tasks.php">
-            <button class="btn">Задачи</button><br/><br/>
-            </form>
-            <form action="/stat.php">
-            <button class="btn">Анализ работы</button><br/><br/>
-            </form>
-            <button class="btn">Накладные</button><br/><br/>
-
         </aside>
         <section>
-            <container>
-            <h4>Заметки</h4>
-            <div id="mydiv">
-                <div class="toast show">
-                <div id="mydivheader">
-                    <div class="toast-header">
-                        <strong class="me-auto">Заказ 14.07</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                    </div>
-                </div>
-                    <div class="toast-body">
-                        Назначить завтра сотрудника на компанию "Малина"
-                    </div>
-                </div>
-            </div>
-            
-        </container>
+        <!-- Button to Open the Modal -->
+        <h2>История выполнения задач <?=$user["Login"]?></h2><br/>
+        <?php             
+            $result = mysqli_query($connection,"
+            SELECT 
+                Job_analysis.ID As ID,
+                Job_analysis.ID_User As ID_User,
+                Job_analysis.Completed_orders As Completed_orders,
+                Job_analysis.Cancelled_orders As Cancelled_orders
+            FROM 
+                Job_analysis
+            WHERE
+                Job_analysis.ID_User = ".$_SESSION["user_info"]["ID"]."
+        "); 
+        ?>
+
+        <table class="table table-bordered table-hover" style="width: 100%">
+            <tr>
+                <th>Задач выполнено</th>
+                <th>Задач отклонено</th>
+            </tr>
+            <?while ($tk = mysqli_fetch_array($result,MYSQLI_BOTH)):?>
+            <tr>
+                <td><?=$tk["Completed_orders"]?></td>
+                <td><?=$tk["Cancelled_orders"]?></td>
+            </tr>
+            <?endwhile?>
+        </table>
         </section>
     </main>
     <footer class="fixed-bottom">

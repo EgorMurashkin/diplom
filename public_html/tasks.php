@@ -150,7 +150,9 @@ if(isset($_GET["confirm_delete_id"])) {
             <form action="/tasks.php">
             <button class="btn">Задачи</button><br/><br/>
             </form>
+            <form action="/stat.php">
             <button class="btn">Анализ работы</button><br/><br/>
+            </form>
             <button class="btn">Накладные</button><br/><br/>
     </aside>
     <section>

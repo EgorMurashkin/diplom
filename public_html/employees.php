@@ -180,7 +180,7 @@ if(isset($_GET["confirm_delete_id"])) {
                         <input name="mail" type="text" class="form-control" id="wei" placeholder="Почта" name="eweg" value="<?=$form_fields["mail"]?>">
                     </div>
                     <div class="mb-3">
-                        <label for="pr" class="form-label">Пасспортные данные:</label>
+                        <label for="pr" class="form-label">Паспортные данные:</label>
                         <input name="Pass" type="text" class="form-control" id="pr" placeholder="Пасспортные данные" name="htce" value="<?=$form_fields["Pass"]?>">
                     </div>
                     <div class="mb-3">

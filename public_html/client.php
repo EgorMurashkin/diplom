@@ -32,8 +32,8 @@ if(isset($_POST["btn_go"])) {
     }        
     else
         mysqli_query($connection,"
-            INSERT INTO `Clients`(Name,Full_name,Company,Mail,Number,Inn,Company_adress) 
-            VALUES('$F_name','$S_name','$Com','$mail','$Num','$inn','$adress')
+            INSERT INTO `Clients`(Role,Name,Full_name,Company,Mail,Number,Inn,Company_adress) 
+            VALUES(2,'$F_name','$S_name','$Com','$mail','$Num','$inn','$adress')
         ");
 
     //Сброс значений формы после успешной её обработки
@@ -125,7 +125,9 @@ if(isset($_GET["confirm_delete_id"])) {
             <form action="/tasks.php">
             <button class="btn">Задачи</button><br/><br/>
             </form>
+            <form action="/stat.php">
             <button class="btn">Анализ работы</button><br/><br/>
+            </form>
             <button class="btn">Накладные</button><br/><br/>
         </aside>
         <section>

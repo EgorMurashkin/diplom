@@ -184,7 +184,7 @@ function add_completed_analytics($user_id) {
             <form action="/emporder.php">
             <button class="btn">Бланки заказов</button><br/><br/>
             </form>
-            <form action="">
+            <form action="/empstat.php">
             <button class="btn">Мониторинг работы</button><br/><br/>
             </form>
         </aside>
@@ -327,7 +327,9 @@ function add_completed_analytics($user_id) {
                 <td>
                     <a href="?accept_id=<?=$tk["ID"]?>" class="btn btn-light">Приступить</a>&nbsp;
                     <a href="?decline_id=<?=$tk["ID"]?>" class="btn btn-lightr">Отклонить</a>&nbsp;
-                    <a href="?delete_id=<?=$tk["ID"]?>" class="btn btn-lightr">Оформить заказ</a>
+                    <form action="/neworder.php">
+                    <button class="btn">Оформить заказ</button>
+                    </button>
                 </td>
             </tr>
             <?endwhile?>

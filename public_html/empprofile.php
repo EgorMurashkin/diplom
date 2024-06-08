@@ -57,7 +57,7 @@
                     <h4>Профиль</h4>
                 </div>
                 <div class="col-2">
-                    <form action="/profile.php">
+                    <form action="/empprofile.php">
                         <button class="btn btn-outline-light text-light">Профиль</button>
                     </form>
                 </div>
@@ -76,7 +76,7 @@
             <form action="/emporder.php">
             <button class="btn">Бланки заказов</button><br/><br/>
             </form>
-            <form action="">
+            <form action="/empstat.php">
             <button class="btn">Мониторинг работы</button><br/><br/>
             </form>
         </aside>
@@ -86,7 +86,7 @@
             <div class="contain">
                 <div id="mydivheader">
                     <h2>Данные пользователя</h2>
-                </div>
+                    </div>
                 <div class="mb-3 mt-3">
                 <label for="login">Логин:</label>
                 <?=$user["Login"]?>
@@ -98,6 +98,22 @@
                 <div class="mb-3 mt-3">
                 <label for="login">Фамилия:</label>
                 <?=$user["Full_name"]?>
+                </div>
+                <div class="mb-3 mt-3">
+                <label for="login">Номер:</label>
+                <?=$user["Number"]?>
+                </div>
+                <div class="mb-3 mt-3">
+                <label for="login">Почта:</label>
+                <?=$user["Mail"]?>
+                </div>
+                <div class="mb-3 mt-3">
+                <label for="login">Паспортные данные:</label>
+                <?=$user["Passport_data"]?>
+                </div>
+                <div class="mb-3 mt-3">
+                <label for="login">ИНН:</label>
+                <?=$user["Inn"]?>
                 </div>
                 
                 

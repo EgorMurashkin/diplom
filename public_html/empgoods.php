@@ -132,7 +132,7 @@ if(isset($_GET["confirm_delete_id"])) {
             <form action="/emporder.php">
             <button class="btn">Бланки заказов</button><br/><br/>
             </form>
-            <form action="">
+            <form action="/empstat.php">
             <button class="btn">Мониторинг работы</button><br/><br/>
             </form>
         </aside>
@@ -252,13 +252,13 @@ if(isset($_GET["confirm_delete_id"])) {
         ?>
         <table class="table table-bordered table-hover" style="width:100%">
             <tr>
-                <th>ID</th>      
+            <th>ID</th>      
                 <th>Название</th>
-                <th>Количество коробок</th>
-                <th>Количество упаковок</th>
-                <th>Вес коробки</th>
-                <th>Цена коробки</th>
-                <th>Цена упаковки</th>
+                <th>Количество коробок,шт</th>
+                <th>Кол-во упаковок в коробке,шт</th>
+                <th>Вес коробки,кг</th>
+                <th>Цена коробки,руб</th>
+                <th>Цена упаковки,руб</th>
             </tr>
             <?while ($tov = mysqli_fetch_array($result,MYSQLI_BOTH)):?>
             <tr>
