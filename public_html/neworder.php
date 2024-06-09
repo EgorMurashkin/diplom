@@ -5,31 +5,13 @@ session_start();
 
 error_reporting(~E_WARNING);
 
-
-add_completed_analytics($user_id);
-
-
-function add_completed_analytics($user_id) {
-    global $connection;
-    $res=mysqli_query($connection,"SELECT * FROM Job_analysis WHERE ID_User = $user_id");
-    if(mysqli_num_rows($res)==0){
-        mysqli_query($connection,"INSERT INTO Job_analysis(ID_User,Completed_orders) VALUES($user_id,3)");
-    }else{
-        mysqli_query($connection,"
-            UPDATE Job_analysis
-            SET Completed_orders = Completed_orders + 1
-            WHERE ID_User = $user_id
-        ");
-    }
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="icons/skif.png" />
+    <link rel="shortcut icon" href="icons/skif.png">
     <title>Клиенты</title>
     <style>
         body {

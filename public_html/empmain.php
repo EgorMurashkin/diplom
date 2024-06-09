@@ -95,7 +95,7 @@ if(isset($_GET["done_id"])) {
     ");
 
    add_completed_analytics($user_id);
-   
+   header("Location: /neworder.php");
 }
 if(isset($_GET["decline_id"])) {
     $id=(int)$_GET["decline_id"];
@@ -354,9 +354,7 @@ function add_cancelled_analytics($user_id) {
                 <td>
                     <a href="?accept_id=<?=$tk["ID"]?>" class="btn btn-light">Приступить</a>&nbsp;
                     <a href="?decline_id=<?=$tk["ID"]?>" class="btn btn-lightr">Отклонить</a>&nbsp;
-                    <form action="/neworder.php">
                     <a href="?done_id=<?=$tk["ID"]?>" class="btn btn-lightr">Cоздать бланк заказа</a>
-                    </button>
                 </td>
             </tr>
             <?endwhile?>
