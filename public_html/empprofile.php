@@ -46,17 +46,17 @@
     
 </head>
 <body>
-    <header>
+<header class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
         <!-- лого/верхнее меню -->
         <div class="container-fluid">
-            <div class="row">
+            <div class="row" style="width: 100%;">
                 <div class="col-1">
                     <img src="icons/skif.png" width="40px" height="40px">
                 </div>
-                <div class="col-9">
+                <div class="col-10">
                     <h4>Профиль</h4>
                 </div>
-                <div class="col-2">
+                <div class="col-1">
                     <form action="/empprofile.php">
                         <button class="btn btn-outline-light text-light">Профиль</button>
                     </form>
@@ -69,6 +69,9 @@
             <!-- боковое меню -->
             <form action="/empmain.php">
             <button class="btn">Предстоящие задачи</button><br/><br/>
+            </form>
+            <form action="/empclient.php">
+            <button class="btn">Клиенты</button><br/><br/>
             </form>
             <form action="/empgoods.php">
             <button class="btn">Товары</button><br/><br/>
@@ -119,9 +122,6 @@
                 
                 <form action="/auth/exit.php" style="float: left;">
                     <button class="btn btn-outline-secondary">Выйти</button>
-                </form>
-                <form action="" style="float: right;">                    
-                    <button class="btn btn-outline-secondary">Редактировать</button><br/>
                 </form>
                 <div style="clear: both;"></div>
             </div>

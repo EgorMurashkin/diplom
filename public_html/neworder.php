@@ -1,7 +1,27 @@
 <?php
 require_once("$_SERVER[DOCUMENT_ROOT]/../db/databases.php");
 
+session_start();
+
 error_reporting(~E_WARNING);
+
+
+add_completed_analytics($user_id);
+
+
+function add_completed_analytics($user_id) {
+    global $connection;
+    $res=mysqli_query($connection,"SELECT * FROM Job_analysis WHERE ID_User = $user_id");
+    if(mysqli_num_rows($res)==0){
+        mysqli_query($connection,"INSERT INTO Job_analysis(ID_User,Completed_orders) VALUES($user_id,3)");
+    }else{
+        mysqli_query($connection,"
+            UPDATE Job_analysis
+            SET Completed_orders = Completed_orders + 1
+            WHERE ID_User = $user_id
+        ");
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -23,18 +43,18 @@ error_reporting(~E_WARNING);
     
 </head>
 <body>
-    <header>
+<header class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
         <!-- лого/верхнее меню -->
         <div class="container-fluid">
-            <div class="row">
+            <div class="row" style="width: 100%;">
                 <div class="col-1">
                     <img src="icons/skif.png" width="40px" height="40px">
                 </div>
-                <div class="col-9">
-                    <h4>Клиенты</h4>
+                <div class="col-10">
+                    <h4>Оформление бланка заказа</h4>
                 </div>
-                <div class="col-2">
-                    <form action="/profile.php">
+                <div class="col-1">
+                    <form action="/empprofile.php">
                         <button class="btn btn-outline-light text-light">Профиль</button>
                     </form>
                 </div>
@@ -47,6 +67,9 @@ error_reporting(~E_WARNING);
             <form action="/empmain.php">
             <button class="btn">Предстоящие задачи</button><br/><br/>
             </form>
+            <form action="/empclient.php">
+            <button class="btn">Клиенты</button><br/><br/>
+            </form>
             <form action="/empgoods.php">
             <button class="btn">Товары</button><br/><br/>
             </form>
@@ -58,6 +81,7 @@ error_reporting(~E_WARNING);
             </form>
         </aside>
         <section>
+        <a href="?accept_id=<?=$tk["ID"]?>" class="btn btn-light">Оформить заказ</a>&nbsp;
 
         </section>
     </main>

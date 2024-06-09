@@ -32,8 +32,8 @@ if(isset($_POST["btn_go"])) {
     }        
     else
         mysqli_query($connection,"
-            INSERT INTO `Clients`(Role,Name,Full_name,Company,Mail,Number,Inn,Company_adress) 
-            VALUES(2,'$F_name','$S_name','$Com','$mail','$Num','$inn','$adress')
+            INSERT INTO `Clients`(Name,Full_name,Company,Mail,Number,Inn,Company_adress) 
+            VALUES('$F_name','$S_name','$Com','$mail','$Num','$inn','$adress')
         ");
 
     //Сброс значений формы после успешной её обработки
@@ -46,7 +46,7 @@ $form_fields=$_POST;
 if(isset($_GET["edit_id"])) {
     $id=(int)$_GET["edit_id"];
 
-    $res=mysqli_query($connection,"SELECT * FROM `Сlients` WHERE ID=$id");
+    $res=mysqli_query($connection,"SELECT * FROM `Clients` WHERE ID=$id");
 
     $client=mysqli_fetch_array($res,MYSQLI_BOTH);
 
@@ -63,7 +63,7 @@ if(isset($_GET["edit_id"])) {
 if(isset($_GET["confirm_delete_id"])) {
     $id=(int)$_GET["confirm_delete_id"];
 
-    $res=mysqli_query($connection,"DELETE FROM `Сlients` WHERE ID=$id");
+    $res=mysqli_query($connection,"DELETE FROM `Clients` WHERE ID=$id");
 
      //Сброс значений формы после успешной её обработки
      header("Location: $_SERVER[PHP_SELF]");
@@ -89,17 +89,17 @@ if(isset($_GET["confirm_delete_id"])) {
     
 </head>
 <body>
-    <header>
+<header class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
         <!-- лого/верхнее меню -->
         <div class="container-fluid">
-            <div class="row">
+            <div class="row" style="width: 100%;">
                 <div class="col-1">
                     <img src="icons/skif.png" width="40px" height="40px">
                 </div>
-                <div class="col-9">
+                <div class="col-10">
                     <h4>Клиенты</h4>
                 </div>
-                <div class="col-2">
+                <div class="col-1">
                     <form action="/profile.php">
                         <button class="btn btn-outline-light text-light">Профиль</button>
                     </form>
@@ -128,7 +128,9 @@ if(isset($_GET["confirm_delete_id"])) {
             <form action="/stat.php">
             <button class="btn">Анализ работы</button><br/><br/>
             </form>
+            <form action="/orders.php">
             <button class="btn">Накладные</button><br/><br/>
+            </form>
         </aside>
         <section>
 

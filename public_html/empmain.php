@@ -80,11 +80,23 @@ if(isset($_GET["accept_id"])) {
             ID = $id AND
             UserID = $user_id
     ");
+}
+
+if(isset($_GET["done_id"])) {
+    $id=(int)$_GET["done_id"];
+    $user_id=$_SESSION["user_info"]["ID"];
+
+    mysqli_query($connection,"
+        UPDATE Task 
+        SET Status = 3
+        WHERE
+            ID = $id AND
+            UserID = $user_id
+    ");
 
    add_completed_analytics($user_id);
    
 }
-
 if(isset($_GET["decline_id"])) {
     $id=(int)$_GET["decline_id"];
     $user_id=$_SESSION["user_info"]["ID"];
@@ -97,7 +109,7 @@ if(isset($_GET["decline_id"])) {
             UserID = $user_id
     ");
 
-   
+    add_cancelled_analytics($user_id);
 }
 
 if(isset($_GET["confirm_delete_id"])) {
@@ -113,11 +125,25 @@ function add_completed_analytics($user_id) {
     global $connection;
     $res=mysqli_query($connection,"SELECT * FROM Job_analysis WHERE ID_User = $user_id");
     if(mysqli_num_rows($res)==0){
-        mysqli_query($connection,"INSERT INTO Job_analysis(ID_User,Completed_orders) VALUES($user_id,1)");
+        mysqli_query($connection,"INSERT INTO Job_analysis(ID_User,Completed_orders) VALUES($user_id,3)");
     }else{
         mysqli_query($connection,"
             UPDATE Job_analysis
             SET Completed_orders = Completed_orders + 1
+            WHERE ID_User = $user_id
+        ");
+    }
+}
+
+function add_cancelled_analytics($user_id) {
+    global $connection;
+    $res=mysqli_query($connection,"SELECT * FROM Job_analysis WHERE ID_User = $user_id");
+    if(mysqli_num_rows($res)==0){
+        mysqli_query($connection,"INSERT INTO Job_analysis(ID_User,Cancelled_orders) VALUES($user_id,2)");
+    }else{
+        mysqli_query($connection,"
+            UPDATE Job_analysis
+            SET Cancelled_orders = Cancelled_orders + 1
             WHERE ID_User = $user_id
         ");
     }
@@ -154,17 +180,17 @@ function add_completed_analytics($user_id) {
 </head>
 <body>
     <?/*?><xmp><?print_r($_SESSION);?></xmp><?*/?>
-    <header>
+    <header class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
         <!-- лого/верхнее меню -->
         <div class="container-fluid">
-            <div class="row">
+            <div class="row" style="width: 100%;">
                 <div class="col-1">
                     <img src="icons/skif.png" width="40px" height="40px">
                 </div>
-                <div class="col-9">
-                    <h4>Главная страница</h4>
+                <div class="col-10">
+                    <h4>Предстоящие задачи</h4>
                 </div>
-                <div class="col-2">
+                <div class="col-1">
                     <form action="/empprofile.php">
                         <button class="btn btn-outline-light text-light">Профиль</button>
                     </form>
@@ -177,6 +203,9 @@ function add_completed_analytics($user_id) {
             <!-- боковое меню -->
             <form action="/empmain.php">
             <button class="btn">Предстоящие задачи</button><br/><br/>
+            </form>
+            <form action="/empclient.php">
+            <button class="btn">Клиенты</button><br/><br/>
             </form>
             <form action="/empgoods.php">
             <button class="btn">Товары</button><br/><br/>
@@ -309,8 +338,7 @@ function add_completed_analytics($user_id) {
         ?>
 
         <table class="table table-bordered table-hover" style="width: 100%">
-            <tr>
-                <th>ID</th>      
+            <tr>     
                 <th>Организация</th>
                 <th>Сотрудник</th>
                 <th>Описание</th>
@@ -319,7 +347,6 @@ function add_completed_analytics($user_id) {
             </tr>
             <?while ($tk = mysqli_fetch_array($result,MYSQLI_BOTH)):?>
             <tr>
-                <td><?=$tk["ID"]?></td>
                 <td><?=$tk["Company"]?></td>
                 <td><?=$tk["Login"]?></td>
                 <td><?=$tk["Description"]?></td>
@@ -328,7 +355,7 @@ function add_completed_analytics($user_id) {
                     <a href="?accept_id=<?=$tk["ID"]?>" class="btn btn-light">Приступить</a>&nbsp;
                     <a href="?decline_id=<?=$tk["ID"]?>" class="btn btn-lightr">Отклонить</a>&nbsp;
                     <form action="/neworder.php">
-                    <button class="btn">Оформить заказ</button>
+                    <a href="?done_id=<?=$tk["ID"]?>" class="btn btn-lightr">Cоздать бланк заказа</a>
                     </button>
                 </td>
             </tr>

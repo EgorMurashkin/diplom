@@ -114,17 +114,17 @@ if(isset($_GET["edit_id"])) {
     
 </head>
 <body>
-    <header>
+<header class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
         <!-- лого/верхнее меню -->
         <div class="container-fluid">
-            <div class="row">
+            <div class="row" style="width: 100%;">
                 <div class="col-1">
                     <img src="icons/skif.png" width="40px" height="40px">
                 </div>
-                <div class="col-9">
+                <div class="col-10">
                     <h4>Профиль</h4>
                 </div>
-                <div class="col-2">
+                <div class="col-1">
                     <form action="/profile.php">
                         <button class="btn btn-outline-light text-light">Профиль</button>
                     </form>
@@ -153,7 +153,9 @@ if(isset($_GET["edit_id"])) {
             <form action="/stat.php">
             <button class="btn">Анализ работы</button><br/><br/>
             </form>
+            <form action="/orders.php">
             <button class="btn">Накладные</button><br/><br/>
+            </form>
         </aside>
         <section>
         

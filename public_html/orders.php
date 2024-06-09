@@ -1,9 +1,6 @@
 <?php
 require_once("$_SERVER[DOCUMENT_ROOT]/../db/databases.php");
-require_once("$_SERVER[DOCUMENT_ROOT]/../auth/auth.inc.php");
-$user=$_SESSION["user_info"];
 
-session_start();
 error_reporting(~E_WARNING);
 
 if(isset($_POST["btn_go"])) {
@@ -49,7 +46,7 @@ $form_fields=$_POST;
 if(isset($_GET["edit_id"])) {
     $id=(int)$_GET["edit_id"];
 
-    $res=mysqli_query($connection,"SELECT * FROM `Сlients` WHERE ID=$id");
+    $res=mysqli_query($connection,"SELECT * FROM `Clients` WHERE ID=$id");
 
     $client=mysqli_fetch_array($res,MYSQLI_BOTH);
 
@@ -66,7 +63,7 @@ if(isset($_GET["edit_id"])) {
 if(isset($_GET["confirm_delete_id"])) {
     $id=(int)$_GET["confirm_delete_id"];
 
-    $res=mysqli_query($connection,"DELETE FROM `Сlients` WHERE ID=$id");
+    $res=mysqli_query($connection,"DELETE FROM `Clients` WHERE ID=$id");
 
      //Сброс значений формы после успешной её обработки
      header("Location: $_SERVER[PHP_SELF]");
@@ -100,10 +97,10 @@ if(isset($_GET["confirm_delete_id"])) {
                     <img src="icons/skif.png" width="40px" height="40px">
                 </div>
                 <div class="col-10">
-                    <h4>Бланки заказов</h4>
+                    <h4>Товары</h4>
                 </div>
                 <div class="col-1">
-                    <form action="/empprofile.php">
+                    <form action="/profile.php">
                         <button class="btn btn-outline-light text-light">Профиль</button>
                     </form>
                 </div>
@@ -113,29 +110,30 @@ if(isset($_GET["confirm_delete_id"])) {
     <main>
     <aside>
             <!-- боковое меню -->
-            <form action="/empmain.php">
-            <button class="btn">Предстоящие задачи</button><br/><br/>
+            <form action="/main.php">
+            <button class="btn">Главная страница</button><br/><br/>
             </form>
-            <form action="/empclient.php">
-            <button class="btn">Клиенты</button><br/><br/>
-            </form>
-            <form action="/empgoods.php">
+            <form action="/goods.php">
             <button class="btn">Товары</button><br/><br/>
             </form>
-            <form action="/emporder.php">
-            <button class="btn">Бланки заказов</button><br/><br/>
+            <form action="/client.php">
+            <button class="btn">Клиенты</button><br/><br/>
             </form>
-            <form action="/empstat.php">
-            <button class="btn">Мониторинг работы</button><br/><br/>
+            <form action="/employees.php">
+            <button class="btn">Сотрудники</button><br/><br/>
+            </form>
+            <form action="/tasks.php">
+            <button class="btn">Задачи</button><br/><br/>
+            </form>
+            <form action="/stat.php">
+            <button class="btn">Анализ работы</button><br/><br/>
+            </form>
+            <form action="/orders.php">
+            <button class="btn">Накладные</button><br/><br/>
             </form>
         </aside>
         <section>
-        <!-- Button to Open the Modal -->
-        <form action="/neworder.php">
-            <button class="btn">Создать бланк заказа</button>
-            </button><br/><br/>
-        </form>
-        <h3>Оформленные бланки заказов сотрудником: <?=$user["Login"]?></h3><br/>
+        <h3>Оформленные бланки заказов</h3><br/>
         <?php  $result = mysqli_query($connection,"SELECT * FROM Order_form"); ?>
 
         <table class="table table-bordered table-hover" style="width:100%">

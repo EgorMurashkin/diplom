@@ -141,10 +141,11 @@ if(isset($_GET["confirm_delete_id"])) {
             <form action="/stat.php">
             <button class="btn">Анализ работы</button><br/><br/>
             </form>
+            <form action="/orders.php">
             <button class="btn">Накладные</button><br/><br/>
+            </form>
         </aside>
         <section>
-
         <?$res=mysqli_query($connection,"SELECT * FROM Categories");?>
         <div class="btn-group">
             <?while($category=mysqli_fetch_array($res,MYSQLI_BOTH)):?>

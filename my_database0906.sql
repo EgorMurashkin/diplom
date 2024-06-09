@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 08 2024 г., 16:22
+-- Время создания: Июн 09 2024 г., 10:22
 -- Версия сервера: 5.6.51
 -- Версия PHP: 8.1.9
 
@@ -95,7 +95,8 @@ CREATE TABLE `clients` (
 
 INSERT INTO `clients` (`ID`, `Name`, `Full_name`, `Company`, `Mail`, `Number`, `Inn`, `Company_adress`) VALUES
 (1, 'Сергей', 'Смирных', ' ООО \"Вишня\"', 'bwd8oq343@gmail.com', '7 932 389 12 30', '19473046294', 'Россия, г. Челябинск, Дорожная ул., д. 20 кв.42'),
-(2, 'Иван', 'Сидоров', 'ООО \"Йогурт\"', 'fewfe12@gmail.com', '7 892 439 82 11', '8632691603', 'Россия, г. Челябинск, Победы ул., д. 41');
+(2, 'Иван', 'Сидоров', 'ООО \"Йогурт\"', 'fewfe12@gmail.com', '7 892 439 82 11', '8632691603', 'Россия, г. Челябинск, Победы ул., д. 41'),
+(3, 'Александр', 'Тюменцев', '\"Пятерочка\"', 'alex5@gmail.com', ' 8 800 555 35 35', '38745754832', 'Россия, г. Челябинск, Салавата Юлаева 28');
 
 -- --------------------------------------------------------
 
@@ -128,12 +129,8 @@ INSERT INTO `Goods` (`ID`, `CategoryID`, `Name`, `Num_of_boxes`, `Num_of_package
 (16, 4, 'Какое-то драже', 2, 1, 3, '22', '1'),
 (17, 3, 'Какое-то маршмэллоу', 1, 2, 2, '3', '111'),
 (18, 2, 'Шоколадка', 1, 2, 3, '4', '5'),
-(19, 1, '1', 0, 0, 0, '0', '0'),
-(20, 1, '2', 0, 0, 0, '0', '0'),
-(21, 1, '3', 0, 0, 0, '0', '0'),
-(22, 1, '4', 0, 0, 0, '0', '0'),
-(23, 1, '5', 0, 0, 0, '0', '0'),
-(24, 4, '123', 22, 23, 3, '1565', '340');
+(24, 4, '123', 22, 23, 3, '1565', '340'),
+(25, 4, 'Сладкая вата', 10, 20, 1, '1325', '235');
 
 -- --------------------------------------------------------
 
@@ -166,8 +163,8 @@ CREATE TABLE `Job_analysis` (
 
 INSERT INTO `Job_analysis` (`ID`, `ID_User`, `Completed_orders`, `Cancelled_orders`) VALUES
 (1, 6, 2, 1),
-(8, 18, 10, 0),
-(9, 7, 14, 0);
+(9, 7, 16, 1),
+(10, 20, 6, 4);
 
 -- --------------------------------------------------------
 
@@ -196,7 +193,7 @@ CREATE TABLE `Order_form` (
   `User_Sname` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Client_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Client_Sname` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Company` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Company` int(100) NOT NULL,
   `Goods` int(11) NOT NULL,
   `Box_count` int(11) NOT NULL,
   `Total_price` decimal(10,0) NOT NULL,
@@ -267,9 +264,9 @@ INSERT INTO `Task` (`ID`, `ClientID`, `UserID`, `Description`, `Status`) VALUES
 (1, 1, 5, 'Предложить товар. Завтра с 15 до 18', 1),
 (2, 1, 4, 'q11111', 1),
 (3, 1, 6, '1121212', 2),
-(4, 2, 7, 'кыштымская 12а', 2),
-(5, 1, 18, 'Test of the task', 2),
-(6, 2, 18, 'Ещё задача', 2);
+(4, 2, 7, 'кыштымская 12а', 4),
+(7, 3, 20, 'до 18.06, предложить товар.', 3),
+(8, 3, 7, 'до вечера', 2);
 
 -- --------------------------------------------------------
 
@@ -300,8 +297,8 @@ INSERT INTO `users` (`ID`, `Role`, `Name`, `Full_name`, `Number`, `Mail`, `Passp
 (6, 2, 'Егор', 'Белых', '7 912 567 35 28', 'wfnwo98@gmail.com', '385528 3812', '55647388326', 'EgorBeli', '12345'),
 (7, 2, 'Егор', 'С', '', 'me@mail.ru', '', '', 'Egor', '202cb962ac59075b964b07152d234b70'),
 (15, 1, 'Сергей', 'Нестеренко', '891781212312313', 'nest_ss@mail.ru', '1212121212', '121212', 'nest_sy', '202cb962ac59075b964b07152d234b70'),
-(18, 2, 'Ваня', 'Сидоров', '6892 439 82 12', 'ivan1@mail.ru', '12232123123', '13123123', 'ivanr8', '202cb962ac59075b964b07152d234b70'),
-(19, 1, 'Егор', 'Мурашкин', '7 951 479 16 09', 'egormurashkin24@gmail.com', '147613 3230', '20740274833', 'admin', '202cb962ac59075b964b07152d234b70');
+(19, 1, 'Егор', 'Мурашкин', '7 951 479 16 09', 'egormurashkin24@gmail.com', '147613 3230', '20740274833', 'admin', '202cb962ac59075b964b07152d234b70'),
+(20, 2, 'Евгений', 'Крохолев', '', '', '', '', 'Евгений К.', '81dc9bdb52d04dc20036dbd8313ed055');
 
 --
 -- Индексы сохранённых таблиц
@@ -368,7 +365,8 @@ ALTER TABLE `Order_form`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `ID_goods` (`ID_goods`),
   ADD KEY `ClientID` (`ClientID`),
-  ADD KEY `UserID` (`UserID`);
+  ADD KEY `UserID` (`UserID`),
+  ADD KEY `Company` (`Company`);
 
 --
 -- Индексы таблицы `Roles`
@@ -424,13 +422,13 @@ ALTER TABLE `Chat`
 -- AUTO_INCREMENT для таблицы `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `Goods`
 --
 ALTER TABLE `Goods`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT для таблицы `Goods_invoice`
@@ -442,7 +440,7 @@ ALTER TABLE `Goods_invoice`
 -- AUTO_INCREMENT для таблицы `Job_analysis`
 --
 ALTER TABLE `Job_analysis`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `Message`
@@ -472,13 +470,13 @@ ALTER TABLE `Status`
 -- AUTO_INCREMENT для таблицы `Task`
 --
 ALTER TABLE `Task`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -516,7 +514,8 @@ ALTER TABLE `Job_analysis`
 ALTER TABLE `Order_form`
   ADD CONSTRAINT `order_form_ibfk_1` FOREIGN KEY (`ID_goods`) REFERENCES `Goods` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `order_form_ibfk_2` FOREIGN KEY (`ClientID`) REFERENCES `clients` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `order_form_ibfk_3` FOREIGN KEY (`UserID`) REFERENCES `users` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `order_form_ibfk_3` FOREIGN KEY (`UserID`) REFERENCES `users` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_form_ibfk_4` FOREIGN KEY (`Company`) REFERENCES `clients` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `Task`

@@ -24,10 +24,13 @@ aside {
     position: fixed;
     height: 100%;
     overflow: auto;
+    margin-top: 70px;
 }
 section {
     margin-left: 250px;
+    margin-top: 70px;
     padding: 1rem;
+    width: 100%;
 }
  
 /* Стили для подвала */
